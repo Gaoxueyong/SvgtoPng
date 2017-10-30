@@ -22,7 +22,7 @@
 <body>
 
 
-<input type="button" value="生成图片的base64数据" onclick="exportBase64();"/>
+<input type="button" value="生成图片的base64码并把得到的图片写入的word文件里" onclick="exportBase64();"/>
 
 <textarea id="pic_base64" cols="10" rows="10" style="width:70%"></textarea>
 
@@ -110,7 +110,7 @@
         *    这种方式获取的数据较完整，或根据画布大小等因素自动适应，图表不会变形，渲染较好
         **/
         // var chartData = $("#container").highcharts().getSVG();
-        var chartData = Highcharts.charts[0].getSVG()
+        var chartData = Highcharts.charts[0].getSVG();
 
         //2、用canvg将svg数据转换到canvas中
         /*
