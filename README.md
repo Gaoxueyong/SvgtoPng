@@ -4,3 +4,4 @@
 #项目部署完成后请访问http://localhost:8080/index
 ![输入图片说明](https://gitee.com/uploads/images/2017/1030/163745_96701d18_1017700.png "下载.png")
 ![输入图片说明](https://gitee.com/uploads/images/2017/1030/163424_dd26543a_1017700.png "QQ截图20171030162956.png")
+#http://localhost:8080/alarm_cnt_ts/show
