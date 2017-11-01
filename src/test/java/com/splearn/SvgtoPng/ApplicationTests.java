@@ -1,4 +1,4 @@
-package com.splearn.Chapter1;
+package com.splearn.SvgtoPng;
 
 
 import com.splearn.svgtopng.entity.BlogProperties;

@@ -21,7 +21,7 @@ public class TxtUtils {
 
 //        long start = System.currentTimeMillis();
 //
-//        String readPath = "D:\\idea_workspace\\Chapter1\\src\\main\\java\\com\\splearn\\Chapter1\\anylize\\alarm_daily_stats.txt";
+//        String readPath = "D:\\idea_workspace\\SvgtoPng\\src\\main\\java\\com\\splearn\\SvgtoPng\\anylize\\alarm_daily_stats.txt";
 //
 //        File fileRead = new File(readPath);
 //        InputStreamReader isr = new InputStreamReader(new FileInputStream(fileRead));
@@ -76,7 +76,7 @@ public class TxtUtils {
 
         String propertity_szd = "上匝道-堵点";
 
-      String file_path = "D:\\idea_workspace\\Chapter1\\src\\main\\java\\com\\splearn\\Chapter1\\anylize\\alarm_daily_stats.txt";
+      String file_path = "D:\\idea_workspace\\SvgtoPng\\src\\main\\java\\com\\splearn\\SvgtoPng\\anylize\\alarm_daily_stats.txt";
       int szd_this_call_police_count = 0;
       List<List<String >> result = read_txt_array(file_path);
         for(List<String> da_str:result) {
