@@ -2,16 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
-    <title>Highcharts Example</title>
+    <title>日报警量</title>
 
-    <style type="text/css">
-        #container {
-            min-width: 310px;
-            max-width: 800px;
-            height: 400px;
-            margin: 0 auto
-        }
-    </style>
+
     <script th:src="@{/highcharts/highcharts.js}"></script>
     <script th:src="@{/highcharts/modules/series-label.js}"></script>
     <script th:src="@{/highcharts/modules/exporting.js}"></script>
@@ -21,120 +14,323 @@
 </head>
 <body>
 
+ <form th:id="submit">
+     <input th:type="hidden" th:name="svg_data_rbjl"/>
+     <input th:type="hidden" th:name="svg_data_container_xzddd"/>
+     <input th:type="hidden" th:name="svg_data_container_common_dmhs"/>
+     <input th:type="hidden" th:name="svg_data_container_common_lkhs"/>
+     <input th:type="hidden" th:name="svg_data_container_common_szddd"/>
+     <input th:type="hidden" th:name="svg_data_container_common_xzddd"/>
+     <input th:type="hidden" th:name="type"/>
 
-<input type="button" value="生成图片的base64码并把得到的图片写入的word文件里" onclick="exportBase64();"/>
-
-<textarea id="pic_base64" cols="10" rows="10" style="width:70%"></textarea>
-
-
-<div id="container"></div>
+ </form>
+<div>
+    <input th:type="button" th:value="导出word文档" onclick="exportObj('WORD');"/> |
+    <input th:type="button" th:value="导出pdf文档" onclick="exportObj('PDF');"/>
+</div>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <hr/>
-<h1>canvas转换产生的图片</h1>
-<canvas id='canvasId'></canvas>
+<div id="container_xzddd" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <hr/>
-<h1>base64位code产生的图片</h1>
-<img src="" id="img"/>
+<div id="container_common_dmhs" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<hr/>
+<div id="container_common_lkhs" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<hr/>
+<div id="container_common_szddd" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<hr/>
+<div id="container_common_xzddd" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
 <script type="text/javascript">
-
-    Highcharts.chart('container', {
-
-        title: {
-            text: 'Solar Employment Growth by Sector, 2010-2016'
-        },
-
-        subtitle: {
-            text: 'Source: thesolarfoundation.com'
-        },
-
-        yAxis: {
-            title: {
-                text: 'Number of Employees'
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
+    //日报警量
+    $.post("/getData_rbjl",{},function(data){
+        if(data.success){
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'line'
                 },
-                pointStart: 2010
-            }
-        },
-
-        series: [{
-            name: 'Installation',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-        }, {
-            name: 'Manufacturing',
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        }, {
-            name: 'Sales  Distribution',
-            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        }, {
-            name: 'Project Development',
-            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-        }, {
-            name: 'Other',
-            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
+                title: {
+                    text: data.title
                 },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
                     }
-                }
-            }]
+                },
+                //            series: [{
+                //                name: '测试-上堵点',
+                //                data: [1200,2100, 3500, 1800, 1650, 4300, 4500, 3000, 1500,1787,2609,3599,4790,4280,4000,1400]
+                //            },{
+                //                name: '测试-蓝色',
+                //                data: [900,1800, 2900, 1840, 3891, 800, 2476, 400, 3920,4100,1309,1989,500,4666,1488,1400]
+                //            },{
+                //                name: '测试-红色',
+                //                data: [600,2700, 1777, 1936, 4762, 2677, 4782, 1300, 3444,600,3709,2099,3000,1280,1498,1300]
+                //            },{
+                //                name: '测试-下堵点',
+                //                data: [400,3500, 2654, 1398, 4198, 4999, 2455, 900, 2487,4787,2009,3000,1000,3480,2766,800]
+                //            }]
+                series:data.series
+            });
         }
 
-    });
+    })
+
+    //测试-下堵点
+    $.post("/getData_xzddd",{},function(data){
+        if(data.success){
+            Highcharts.chart('container_xzddd', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series:data.series
+            });
+        }
+
+    })
+
+    //测试-红色
+    $.post("/getData_common",{type:"dmhs"},function(data){
+        if(data.success){
+            Highcharts.chart('container_common_dmhs', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series:data.series
+            });
+        }
+
+    })
+
+    //测试-蓝色
+    $.post("/getData_common",{type:"lkhs"},function(data){
+        if(data.success){
+            Highcharts.chart('container_common_lkhs', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series:data.series
+            });
+        }
+
+    })
+
+    //测试-上堵点
+    $.post("/getData_common",{type:"szddd"},function(data){
+        if(data.success){
+            Highcharts.chart('container_common_szddd', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series:data.series
+            });
+        }
+
+    })
+
+    //测试-下堵点
+    $.post("/getData_common",{type:"xzddd"},function(data){
+        if(data.success){
+            Highcharts.chart('container_common_xzddd', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories:data.categories
+                },
+                yAxis: {
+                    title: {
+                        //text: 'Temperature (°C)'
+                        text: ''
+                    },
+                    //tickPositions: [0, 1000, 2000, 3000,4000,5000]//Y坐标的刻度
+                    tickPositions: data.tickPositions//Y坐标的刻度
+
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series:data.series
+            });
+        }
+
+    })
 
 
-    function exportBase64() {
+    function exportObj(type) {
 
-
-
-        /*
-        *    使用highchart自带exporting.js中getSVG()方法获取（需引入exporting.js）；
-        *    这种方式获取的数据较完整，或根据画布大小等因素自动适应，图表不会变形，渲染较好
-        **/
-        // var chartData = $("#container").highcharts().getSVG();
-        var chartData = Highcharts.charts[0].getSVG();
-
-        //2、用canvg将svg数据转换到canvas中
-        /*
-        *  @Param canvasId canvas标签的id
-        *  @Param chartData 图表svg数据
-        *  需要在提前页面加载canvas标签（如：<canvas id='canvasId' style='……'></canvas>)
-        **/
-        var opts = {};
-        canvg("canvasId", chartData, opts);
-
-        //3、使用canvas转换图片……
-        /*
-        * 这里获取的是base64位的图片数据，也可以直接在浏览器中使用
-        * 将imgData转换正二进制编码，写入文件中成为图片(打算用java实现）
-        ***/
-        var canvas = document.getElementById("canvasId");//这里获取的是png格式图片
-        var pic_info = canvas.toDataURL("image/png", 1.0);
-        $("#pic_base64").text(pic_info);
-        $("#img").attr("src", pic_info);
-
-        $.post("convertToPng", {chartData: chartData}, function (data) {
-
+        var svg_data_rbjl ="";//日报警量
+        var svg_data_container_xzddd = "";//下匝道报警量
+        var svg_data_container_common_dmhs = "";//通用 测试-红色 日报警量
+        var svg_data_container_common_lkhs = "";//通用 测试-蓝色 日报警量
+        var svg_data_container_common_szddd = "";//通用 上匝道 日报警量
+        var svg_data_container_common_xzddd = "";//通用 下匝道 日报警量
+        var type = type;
+        $.each(Highcharts.charts,function () {
+            if(this.renderTo.id=="container"){
+                svg_data_rbjl = this.getSVG();
+            }else if(this.renderTo.id == "container_xzddd"){
+                svg_data_container_xzddd = this.getSVG();
+            }else if(this.renderTo.id == "container_common_dmhs"){
+                svg_data_container_common_dmhs = this.getSVG();
+            }else if(this.renderTo.id == "container_common_lkhs"){
+                svg_data_container_common_lkhs = this.getSVG();
+            }else if(this.renderTo.id == "container_common_szddd"){
+                svg_data_container_common_szddd = this.getSVG();
+            }else if(this.renderTo.id == "container_common_xzddd"){
+                svg_data_container_common_xzddd = this.getSVG();
+            }
         })
 
+        $("#submit").attr("action","/export");
+        $("#submit").attr("method","post");
+
+        $("input[name='svg_data_rbjl']").val(svg_data_rbjl);//日报警量
+        $("input[name='svg_data_container_xzddd']").val(svg_data_container_xzddd);//下匝道报警量
+        $("input[name='svg_data_container_common_dmhs']").val(svg_data_container_common_dmhs);//通用 测试-红色 日报警量
+        $("input[name='svg_data_container_common_lkhs']").val(svg_data_container_common_lkhs);//通用 测试-蓝色 日报警量
+        $("input[name='svg_data_container_common_szddd']").val(svg_data_container_common_szddd);//通用 上匝道 日报警量
+        $("input[name='svg_data_container_common_xzddd']").val(svg_data_container_common_xzddd);//通用 下匝道 日报警量
+        $("input[name='type']").val(type);
+        $("#submit").submit();
 
     }
 </script>
